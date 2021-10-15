@@ -1,0 +1,2 @@
+SELECT corr(salary, extract(YEAR from org_hire_date) - year)
+FROM data_salary
