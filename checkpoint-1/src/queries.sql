@@ -48,7 +48,45 @@ WHERE total_number_of_shots != 0
 
 DROP TABLE IF EXISTS officer_seniority ;
 CREATE TEMP TABLE officer_seniority AS
-SELECT 
+SELECT DISTINCT officer_id,
+       YEAR - EXTRACT(YEAR FROM org_hire_date) empl_years
+FROM data_salary dos
+JOIN data_officer dof
+ON dos.officer_id = dof.id
+;
+
+DROP TABLE IF EXISTS trr_force_type ;
+CREATE TEMP TABLE trr_force_type AS
+SELECT id,
+       officer_id,
+       CASE
+       WHEN firearm_used THEN 1 -- firearm
+       WHEN taser        THEN 2 -- taser
+       ELSE 0                   -- no force
+       END force_type
+FROM trr_trr
+;
+
+DROP TABLE IF EXISTS officer_force_counts ;
+CREATE TEMP TABLE officer_force_counts AS
+SELECT no_force.officer_id,
+       no_force.count "#no_force",
+       firearm.count "#firearm",
+       taser.count "#taser"
+FROM (SELECT COUNT(officer_id), officer_id
+             FROM trr_force_type
+             WHERE force_type = 0
+             GROUP BY officer_id) no_force
+JOIN (SELECT COUNT(officer_id), officer_id
+             FROM trr_force_type
+             WHERE force_type = 1
+             GROUP BY officer_id) firearm
+ON no_force.officer_id = firearm.officer_id
+JOIN (SELECT COUNT(officer_id), officer_id
+             FROM trr_force_type
+             WHERE force_type = 2
+             GROUP BY officer_id) taser
+ON no_force.officer_id = taser.officer_id
 ;
 
 -- 1. What is the variance of the number of use of force per capita
@@ -95,5 +133,10 @@ ORDER BY avg_shots DESC
 -- use?
 DROP TABLE IF EXISTS q5 ;
 CREATE TEMP TABLE q5 AS
-SELECT                          --TODO
+SELECT CORR(os.empl_years, "#no_force") "CORR(no_force)",
+       CORR(os.empl_years, "#firearm") "CORR(firearm)",
+       CORR(os.empl_years, "#taser") "CORR(taser)"
+FROM officer_seniority os
+JOIN officer_force_counts fc
+ON os.officer_id = fc.officer_id
 ;
