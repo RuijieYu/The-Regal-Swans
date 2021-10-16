@@ -101,6 +101,8 @@ ON cr.unit_id = uoc.unit_id
 ;
 
 -- 2. Are veteran police officers more likely to acquire a use of force complaint than less experienced ones?
+DROP TABLE IF EXISTS q2 ;
+CREATE TEMP TABLE q2 AS
 SELECT corr(year - EXTRACT(YEAR from org_hire_date), (allegation_name LIKE 'Excessive Force%')::int)
 FROM data_salary
 JOIN data_officer
@@ -110,9 +112,8 @@ ON data_officerallegation.officer_id = data_officer.id
 JOIN data_allegation
 ON data_allegation.crid = data_officerallegation.allegation_id
 JOIN data_allegationcategory
-ON data_allegationcategory.id = data_allegation.most_common_category_id;
-
-
+ON data_allegationcategory.id = data_allegation.most_common_category_id
+;
 
 -- 3. What is the correlation between salary and complaints?
 DROP TABLE IF EXISTS q3 ;
