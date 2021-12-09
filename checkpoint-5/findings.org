@@ -1,0 +1,37 @@
+#+title: The Regal Swans -- Checkpoint 5
+#+author: Ruijie Yu, Russell MacQuarrie
+#+options: toc:nil date:nil ':t
+#+latex_header: \setlength\parindent{0pt}\setlength\parskip{1em}
+#+latex_header: \hypersetup{colorlinks=true,urlcolor=blue,linkcolor=blue,citecolor=red}
+
+# latex usepackage
+#+latex_header: %\usepackage[margin=1in]{geometry}
+#+latex_header: \usepackage[english=american,strict]{csquotes}
+
+In this checkpoint, the goal of our team was to analyze
+texts in allegations and lawsuits, attempting to locate
+additional trends unavailable from numerical data.
+
+For the first part, we assessed whether police officers
+receive more-severe allegations across their careers. Using
+NLP to transform texts from the complainants and a scatter
+plot to visualize the results and by calculating the
+correlation coefficient, we concluded that there is quite an
+insignificant correlation factor between the seniority of an
+officer and the severity of allegations which said officer
+receives.
+
+For the second part, we evaluated whether police lawsuits
+are likely to include the experience of officers into
+consideration. Similar to part one, we compared the
+seniority of officers and the severity of lawsuit summaries
+and concluded that there is virtually no correlation between
+these two qualities.
+
+From the results of this checkpoint and those of previous
+ones, we see that there is no relation between experience
+and severity of either allegations or lawsuit judging, but
+there seems to be some hidden factors leading officers to
+choose firearm over taser when force is used. This is the
+last checkpoint of our group but it may be interesting to
+dive deeper in finding the reason behind such a discrepancy.
